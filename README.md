@@ -8,10 +8,10 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGODB_URI).then(async () => {
-  console.log('Connected!');
   const User = require('./models/User');
-  const users = await User.find({});
-  console.log('All users:', users.map(u => ({email: u.email, role: u.role})));
+  const hash = await bcrypt.hash('admin123', 10);
+  const result = await User.updateOne({ email: 'admin@gamil.com' }, { password: hash });
+  console.log('Result:', result);
   process.exit();
 });
 "
